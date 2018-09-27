@@ -2,6 +2,7 @@ package CloverSwitcher.Controller;
 
 import CloverSwitcher.Model.BootEntry;
 import CloverSwitcher.Model.EntryList;
+import CloverSwitcher.Model.JsonManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -120,6 +121,7 @@ public class MainWindow implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        JsonManager.readFromFile();
         entryNameColumn.setCellValueFactory(cellData -> cellData.getValue().entryNameProperty());
         uuidColumn.setCellValueFactory(cellData -> cellData.getValue().uuidProperty());
         updateEntryTable();

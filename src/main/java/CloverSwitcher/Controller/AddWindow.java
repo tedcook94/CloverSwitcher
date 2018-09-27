@@ -31,7 +31,7 @@ public class AddWindow {
             alert.setHeaderText("Error Saving Entry");
             alert.showAndWait();
         } else {
-            EntryList.addEntry(new BootEntry(entryName, uuid));
+            EntryList.saveNewEntry(new BootEntry(entryName, uuid));
             closeWindow(event);
         }
     }
