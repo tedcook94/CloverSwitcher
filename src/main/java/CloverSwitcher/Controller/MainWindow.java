@@ -6,7 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -55,7 +54,7 @@ public class MainWindow implements Initializable {
     private void openAddEntryWindow(ActionEvent event) throws IOException {
         Parent addWindow = FXMLLoader.load(getClass().getClassLoader().getResource("addWindow.fxml"));
         Scene scene = new Scene(addWindow);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage stage = new Stage();
         stage.setScene(scene);
         stage.show();
     }
@@ -68,7 +67,7 @@ public class MainWindow implements Initializable {
 
             Parent editWindow = FXMLLoader.load(getClass().getClassLoader().getResource("editWindow.fxml"));
             Scene scene = new Scene(editWindow);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Stage stage = new Stage();
             stage.setScene(scene);
             stage.show();
         } else {
