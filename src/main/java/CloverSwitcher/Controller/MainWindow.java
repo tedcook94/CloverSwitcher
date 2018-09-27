@@ -8,10 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
@@ -38,6 +35,9 @@ public class MainWindow implements Initializable {
 
     public static boolean childWindowOpen = false;
     private Text logText = new Text();
+
+    public static ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+    public static ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
 
 
     private void logToConsole(String newLine) {

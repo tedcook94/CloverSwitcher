@@ -26,10 +26,9 @@ public class AddWindow {
         String uuid = uuidField.getText();
 
         if (entryName.length() == 0 || uuid.length() == 0) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Both Entry Name and UUID are required to save the entry.");
             alert.setTitle("Error");
             alert.setHeaderText("Error Saving Entry");
-            alert.setContentText("Both Entry Name and UUID are required to save the entry.");
             alert.showAndWait();
         } else {
             EntryList.addEntry(new BootEntry(entryName, uuid));
@@ -39,14 +38,13 @@ public class AddWindow {
 
     @FXML
     private void cancelEntry(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to cancel adding a new entry?", MainWindow.yesButton, MainWindow.noButton);
         alert.initModality(Modality.NONE);
         alert.setTitle("Confirm Cancel");
         alert.setHeaderText("Confirm Cancel");
-        alert.setContentText("Are you sure you want to cancel adding a new entry?");
         Optional<ButtonType> result = alert.showAndWait();
 
-        if (result.get() == ButtonType.OK) {
+        if (result.get() == MainWindow.yesButton) {
             closeWindow(event);
         }
     }

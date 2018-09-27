@@ -31,10 +31,9 @@ public class EditWindow implements Initializable {
         String uuid = uuidField.getText();
 
         if (entryName.length() == 0 || uuid.length() == 0) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Both Entry Name and UUID are required to save the entry.");
             alert.setTitle("Error");
             alert.setHeaderText("Error Saving Edit");
-            alert.setContentText("Both Entry Name and UUID are required to save the entry.");
             alert.showAndWait();
         } else {
             EntryList.updateEntry(entryIndex, new BootEntry(entryName, uuid));
@@ -44,14 +43,13 @@ public class EditWindow implements Initializable {
 
     @FXML
     private void cancelEdit(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to cancel editing the entry?", MainWindow.yesButton, MainWindow.noButton);
         alert.initModality(Modality.NONE);
         alert.setTitle("Confirm Cancel");
         alert.setHeaderText("Confirm Cancel");
-        alert.setContentText("Are you sure you want to cancel editing the entry?");
         Optional<ButtonType> result = alert.showAndWait();
 
-        if (result.get() == ButtonType.OK) {
+        if (result.get() == MainWindow.yesButton) {
             closeWindow(event);
         }
     }
