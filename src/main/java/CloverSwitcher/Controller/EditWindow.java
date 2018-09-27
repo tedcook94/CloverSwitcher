@@ -59,6 +59,7 @@ public class EditWindow implements Initializable {
     private void closeWindow(ActionEvent event) {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.close();
+        MainWindow.childWindowOpen = false;
     }
 
     @Override

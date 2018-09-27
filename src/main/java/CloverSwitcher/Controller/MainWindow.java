@@ -36,6 +36,7 @@ public class MainWindow implements Initializable {
     private static int entryToModify;
     public static int getEntryToModify() { return entryToModify; }
 
+    public static boolean childWindowOpen = false;
     private Text logText = new Text();
 
 
@@ -52,30 +53,36 @@ public class MainWindow implements Initializable {
 
     @FXML
     private void openAddEntryWindow(ActionEvent event) throws IOException {
-        Parent addWindow = FXMLLoader.load(getClass().getClassLoader().getResource("addWindow.fxml"));
-        Scene scene = new Scene(addWindow);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.show();
+        if (!childWindowOpen) {
+            Parent addWindow = FXMLLoader.load(getClass().getClassLoader().getResource("addWindow.fxml"));
+            Scene scene = new Scene(addWindow);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            childWindowOpen = true;
+        }
     }
 
     @FXML
     private void openEditEntryWindow(ActionEvent event) throws IOException {
         BootEntry entry = entryTable.getSelectionModel().getSelectedItem();
-        if (entry != null) {
-            entryToModify = EntryList.getEntryList().indexOf(entry);
+        if (!childWindowOpen) {
+            if (entry != null) {
+                entryToModify = EntryList.getEntryList().indexOf(entry);
 
-            Parent editWindow = FXMLLoader.load(getClass().getClassLoader().getResource("editWindow.fxml"));
-            Scene scene = new Scene(editWindow);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.show();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Edit Error");
-            alert.setHeaderText("No Entry Selected");
-            alert.setContentText("Select an entry from the table to edit it.");
-            alert.showAndWait();
+                Parent editWindow = FXMLLoader.load(getClass().getClassLoader().getResource("editWindow.fxml"));
+                Scene scene = new Scene(editWindow);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
+                childWindowOpen = true;
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Edit Error");
+                alert.setHeaderText("No Entry Selected");
+                alert.setContentText("Select an entry from the table to edit it.");
+                alert.showAndWait();
+            }
         }
     }
 
