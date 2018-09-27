@@ -31,13 +31,13 @@ public class MainWindow implements Initializable {
     private TextFlow outputArea;
 
     private static int entryToModify;
-    public static int getEntryToModify() { return entryToModify; }
+    static int getEntryToModify() { return entryToModify; }
 
-    public static boolean childWindowOpen = false;
+    static boolean childWindowOpen = false;
     private Text logText = new Text();
 
-    public static ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
-    public static ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+    static ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+    static ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
 
 
     private void logToConsole(String newLine) {
