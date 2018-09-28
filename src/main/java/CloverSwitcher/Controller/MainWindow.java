@@ -3,6 +3,7 @@ package CloverSwitcher.Controller;
 import CloverSwitcher.Model.BootEntry;
 import CloverSwitcher.Model.EntryList;
 import CloverSwitcher.Model.JsonManager;
+import CloverSwitcher.Model.MountManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,6 +34,9 @@ public class MainWindow implements Initializable {
 
     private static int entryToModify;
     static int getEntryToModify() { return entryToModify; }
+
+    private static BootEntry entryToMount;
+    static BootEntry getEntryToMount() { return entryToMount; }
 
     static boolean childWindowOpen = false;
     private Text logText = new Text();
@@ -110,6 +114,30 @@ public class MainWindow implements Initializable {
             alert.setHeaderText("No Entry Selected");
             alert.setContentText("Select an entry from the table to delete it.");
             alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void openMountDiskWindow(ActionEvent event) throws IOException {
+        BootEntry entry = entryTable.getSelectionModel().getSelectedItem();
+        if (!childWindowOpen) {
+            if (entry != null) {
+                entryToMount = entry;
+
+                Parent mountDiskWindow = FXMLLoader.load(getClass().getClassLoader().getResource("mountDiskWindow.fxml"));
+                Scene scene = new Scene(mountDiskWindow);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.setOnCloseRequest(e -> childWindowOpen = false);
+                stage.show();
+                childWindowOpen = true;
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText("No Entry Selected");
+                alert.setContentText("Select an entry from the table to set it as the default boot entry.");
+                alert.showAndWait();
+            }
         }
     }
 
