@@ -59,6 +59,7 @@ public class MainWindow implements Initializable {
             Scene scene = new Scene(addWindow);
             Stage stage = new Stage();
             stage.setScene(scene);
+            stage.setOnCloseRequest(e -> childWindowOpen = false);
             stage.show();
             childWindowOpen = true;
         }
@@ -75,6 +76,7 @@ public class MainWindow implements Initializable {
                 Scene scene = new Scene(editWindow);
                 Stage stage = new Stage();
                 stage.setScene(scene);
+                stage.setOnCloseRequest(e -> childWindowOpen = false);
                 stage.show();
                 childWindowOpen = true;
             } else {
