@@ -15,7 +15,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="inputField" layoutX="315.0" layoutY="290.0" prefHeight="25.0" prefWidth="35.0" />
+      <TextField fx:id="inputField" layoutX="315.0" layoutY="290.0" onAction="#openMountPartitionWindow" prefHeight="25.0" prefWidth="35.0" />
       <Button layoutX="360.0" layoutY="290.0" mnemonicParsing="false" onAction="#openMountPartitionWindow" prefHeight="25.0" prefWidth="65.0" text="Submit" />
    </children>
 </AnchorPane>
