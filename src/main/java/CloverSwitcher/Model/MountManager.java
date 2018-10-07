@@ -3,6 +3,8 @@ package CloverSwitcher.Model;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
 
 public class MountManager {
 
@@ -29,6 +31,7 @@ public class MountManager {
                     result += "\n" + line;
                 }
             }
+            Files.deleteIfExists(FileSystems.getDefault().getPath("diskpartScript.txt"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -60,6 +63,7 @@ public class MountManager {
                     result += "\n" + line;
                 }
             }
+            Files.deleteIfExists(FileSystems.getDefault().getPath("diskpartScript.txt"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -92,6 +96,7 @@ public class MountManager {
                     result += "\n" + line;
                 }
             }
+            Files.deleteIfExists(FileSystems.getDefault().getPath("diskpartScript.txt"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -124,6 +129,7 @@ public class MountManager {
                     result += "\n" + line;
                 }
             }
+            Files.deleteIfExists(FileSystems.getDefault().getPath("diskpartScript.txt"));
         } catch (Exception e) {
             e.printStackTrace();
         }
