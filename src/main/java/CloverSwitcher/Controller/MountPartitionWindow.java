@@ -36,8 +36,11 @@ public class MountPartitionWindow implements Initializable {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Error");
                         alert.setHeaderText("Error Mounting Partition");
-                        alert.setContentText("The partition failed to mount as drive Z. This likely occurred because there is already another volume mounted there.");
+                        alert.setContentText("The partition failed to mount as drive Z. This likely occurred because there is already another volume mounted there or the app is not running as administrator.");
                         alert.showAndWait();
+                        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        stage.close();
+                        MainWindow.childWindowOpen = false;
                     } else {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Success!");
@@ -69,7 +72,12 @@ public class MountPartitionWindow implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         if (SystemUtils.IS_OS_WINDOWS) {
-            outputText.setText(MountManager.listPartitionsWindows(MountDiskWindow.getDiskToMount()));
+            String diskpartOutput = MountManager.listPartitionsWindows(MountDiskWindow.getDiskToMount());
+            if (diskpartOutput.length() > 0) {
+                outputText.setText(diskpartOutput);
+            } else {
+                outputText.setText("Failed to retrieve a list of partitions for the given disk. Is this app running as administrator?");
+            }
             inputLabel.setText("Enter the number of your EFI partition: ");
         }
     }
