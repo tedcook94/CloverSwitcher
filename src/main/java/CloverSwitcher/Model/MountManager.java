@@ -1,6 +1,9 @@
 package CloverSwitcher.Model;
 
+import CloverSwitcher.Controller.MainWindow;
+
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.nio.file.FileSystems;
@@ -97,6 +100,11 @@ public class MountManager {
                 }
             }
             Files.deleteIfExists(FileSystems.getDefault().getPath("diskpartScript.txt"));
+
+            File config = new File("Z:" + File.separator + "EFI" + File.separator + "CLOVER" + File.separator + "config.plist");
+            PlistManager.setDefaultEntry(config, MainWindow.getEntryToSetAsDefault().getUuid());
+            unmountPartitionWindows(diskNumber, partitionNumber);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

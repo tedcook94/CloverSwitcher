@@ -1,9 +1,12 @@
 package CloverSwitcher.Controller;
 
 import CloverSwitcher.Model.MountManager;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import org.apache.commons.lang3.SystemUtils;
 
 import java.net.URL;
@@ -21,9 +24,8 @@ public class MountPartitionWindow implements Initializable {
     private static int partitionToMount;
     static int getPartitionToMount() { return partitionToMount; }
 
-
     @FXML
-    private void setDefaultBootEntry() {
+    private void setDefaultBootEntry(ActionEvent event) {
         if (SystemUtils.IS_OS_WINDOWS) {
             try {
                 partitionToMount = Integer.parseInt(inputField.getText().trim());
@@ -34,8 +36,18 @@ public class MountPartitionWindow implements Initializable {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Error");
                         alert.setHeaderText("Error Mounting Partition");
-                        alert.setContentText("The partition failed to mount as drive Z. This likely occurred because there is alreay another volume mounted there.");
+                        alert.setContentText("The partition failed to mount as drive Z. This likely occurred because there is already another volume mounted there.");
                         alert.showAndWait();
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Success!");
+                        alert.setHeaderText("Default Volume Set");
+                        alert.setContentText("The default volume was successfully set to " + MainWindow.getEntryToSetAsDefault().getEntryName() + " (" + MainWindow.getEntryToSetAsDefault().getUuid() + ").");
+                        alert.showAndWait();
+
+                        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        stage.close();
+                        MainWindow.childWindowOpen = false;
                     }
                 } else {
                     showInvalidPartitionAlert();
