@@ -3,7 +3,6 @@ package CloverSwitcher.Controller;
 import CloverSwitcher.Model.BootEntry;
 import CloverSwitcher.Model.EntryList;
 import CloverSwitcher.Model.JsonManager;
-import CloverSwitcher.Model.MountManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +14,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.SystemUtils;
 
 import java.io.IOException;
 import java.net.URL;
@@ -35,8 +35,8 @@ public class MainWindow implements Initializable {
     private static int entryToModify;
     static int getEntryToModify() { return entryToModify; }
 
-    private static BootEntry entryToMount;
-    static BootEntry getEntryToMount() { return entryToMount; }
+    private static BootEntry entryToSetAsDefault;
+    public static BootEntry getEntryToSetAsDefault() { return entryToSetAsDefault; }
 
     static boolean childWindowOpen = false;
     private Text logText = new Text();
