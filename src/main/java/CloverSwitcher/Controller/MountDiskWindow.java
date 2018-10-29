@@ -69,12 +69,7 @@ public class MountDiskWindow implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         if (SystemUtils.IS_OS_WINDOWS) {
-            String diskpartOutput = MountManager.listDisksWindows();
-            if (diskpartOutput.length() > 0) {
-                outputText.setText(diskpartOutput);
-            } else {
-                outputText.setText("Failed to retrieve a list of system disks. Is this app running as administrator?");
-            }
+            outputText.setText(MountManager.listDisksWindows());
             inputLabel.setText("Enter the disk number of your Clover disk: ");
         }
     }

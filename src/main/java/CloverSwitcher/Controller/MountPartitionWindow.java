@@ -72,12 +72,7 @@ public class MountPartitionWindow implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         if (SystemUtils.IS_OS_WINDOWS) {
-            String diskpartOutput = MountManager.listPartitionsWindows(MountDiskWindow.getDiskToMount());
-            if (diskpartOutput.length() > 0) {
-                outputText.setText(diskpartOutput);
-            } else {
-                outputText.setText("Failed to retrieve a list of partitions for the given disk. Is this app running as administrator?");
-            }
+            outputText.setText(MountManager.listPartitionsWindows(MountDiskWindow.getDiskToMount()));
             inputLabel.setText("Enter the number of your EFI partition: ");
         }
     }

@@ -3,6 +3,7 @@ package CloverSwitcher.Controller;
 import CloverSwitcher.Model.BootEntry;
 import CloverSwitcher.Model.EntryList;
 import CloverSwitcher.Model.JsonManager;
+import CloverSwitcher.Model.MountManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -120,18 +121,28 @@ public class MainWindow implements Initializable {
     @FXML
     private void openMountDiskWindow(ActionEvent event) throws IOException {
         BootEntry entry = entryTable.getSelectionModel().getSelectedItem();
-        if (SystemUtils.IS_OS_WINDOWS || SystemUtils.IS_OS_MAC || SystemUtils.IS_OS_LINUX) {
+        if (SystemUtils.IS_OS_WINDOWS) {
             if (!childWindowOpen) {
                 if (entry != null) {
                     entryToSetAsDefault = entry;
 
-                    Parent mountDiskWindow = FXMLLoader.load(getClass().getClassLoader().getResource("mountDiskWindow.fxml"));
-                    Scene scene = new Scene(mountDiskWindow);
-                    Stage stage = new Stage();
-                    stage.setScene(scene);
-                    stage.setOnCloseRequest(e -> childWindowOpen = false);
-                    stage.show();
-                    childWindowOpen = true;
+                    boolean isAdmin = MountManager.listDisksWindows().length() > 0;
+
+                    if (isAdmin) {
+                        Parent mountDiskWindow = FXMLLoader.load(getClass().getClassLoader().getResource("mountDiskWindow.fxml"));
+                        Scene scene = new Scene(mountDiskWindow);
+                        Stage stage = new Stage();
+                        stage.setScene(scene);
+                        stage.setOnCloseRequest(e -> childWindowOpen = false);
+                        stage.show();
+                        childWindowOpen = true;
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Error Setting Default Entry");
+                        alert.setContentText("Failed to retrieve a list of system disks. Is this app running as administrator?");
+                        alert.showAndWait();
+                    }
                 } else {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Error");
