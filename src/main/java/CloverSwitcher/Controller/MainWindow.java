@@ -129,7 +129,7 @@ public class MainWindow implements Initializable {
                     boolean isAdmin = MountManager.listDisksWindows().length() > 0;
 
                     if (isAdmin) {
-                        Parent mountDiskWindow = FXMLLoader.load(getClass().getClassLoader().getResource("mountDiskWindow.fxml"));
+                        Parent mountDiskWindow = FXMLLoader.load(getClass().getClassLoader().getResource("mountWindowsDiskWindow.fxml"));
                         Scene scene = new Scene(mountDiskWindow);
                         Stage stage = new Stage();
                         stage.setScene(scene);
