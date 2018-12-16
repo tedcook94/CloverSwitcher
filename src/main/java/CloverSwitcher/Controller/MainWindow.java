@@ -151,6 +151,26 @@ public class MainWindow implements Initializable {
                     alert.showAndWait();
                 }
             }
+        } else if (SystemUtils.IS_OS_MAC) {
+            if (!childWindowOpen) {
+                if (entry != null) {
+                    entryToSetAsDefault = entry;
+
+                    Parent mountPartitionWindow = FXMLLoader.load(getClass().getClassLoader().getResource("mountUnixPartitionWindow.fxml"));
+                    Scene scene = new Scene(mountPartitionWindow);
+                    Stage stage = new Stage();
+                    stage.setScene(scene);
+                    stage.setOnCloseRequest(e -> childWindowOpen = false);
+                    stage.show();
+                    childWindowOpen = true;
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("No Entry Selected");
+                    alert.setContentText("Select an entry from the table to set it as the default boot entry.");
+                    alert.showAndWait();
+                }
+            }
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");

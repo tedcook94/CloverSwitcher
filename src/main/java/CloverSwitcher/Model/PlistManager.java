@@ -18,6 +18,8 @@ public class PlistManager {
             PrintWriter writer;
             if (SystemUtils.IS_OS_WINDOWS) {
                 writer = new PrintWriter("Z:" + File.separator + "EFI" + File.separator + "CLOVER" + File.separator + "config.plist", "UTF-8");
+            } else if (SystemUtils.IS_OS_MAC) {
+                writer = new PrintWriter("/Volumes/EFI" + File.separator + "EFI" + File.separator + "CLOVER" + File.separator + "config.plist", "UTF-8");
             } else {
                 writer = new PrintWriter("config.plist", "UTF-8");
             }
