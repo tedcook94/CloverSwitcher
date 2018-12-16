@@ -26,39 +26,38 @@ public class MountWindowsPartitionWindow implements Initializable {
 
     @FXML
     private void setDefaultBootEntry(ActionEvent event) {
-        if (SystemUtils.IS_OS_WINDOWS) {
-            try {
-                partitionToMount = Integer.parseInt(inputField.getText().trim());
+        try {
+            partitionToMount = Integer.parseInt(inputField.getText().trim());
 
-                if (partitionToMount > 0) {
-                    String result = MountManager.mountPartitionWindows(MountWindowsDiskWindow.getDiskToMount(), partitionToMount);
-                    if (!result.contains("successfully assigned")) {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Error");
-                        alert.setHeaderText("Error Mounting Partition");
-                        alert.setContentText("The partition failed to mount as drive Z. This likely occurred because there is already another volume mounted there or the app is not running as administrator.");
-                        alert.showAndWait();
-                        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                        stage.close();
-                        MainWindow.childWindowOpen = false;
-                    } else {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Success!");
-                        alert.setHeaderText("Default Volume Set");
-                        alert.setContentText("The default volume was successfully set to " + MainWindow.getEntryToSetAsDefault().getEntryName() + " (" + MainWindow.getEntryToSetAsDefault().getUuid() + ").");
-                        alert.showAndWait();
-
-                        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                        stage.close();
-                        MainWindow.childWindowOpen = false;
-                    }
+            if (partitionToMount > 0) {
+                String result = MountManager.mountPartitionWindows(MountWindowsDiskWindow.getDiskToMount(), partitionToMount);
+                if (!result.contains("successfully assigned")) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Error Mounting Partition");
+                    alert.setContentText("The partition failed to mount as drive Z. This likely occurred because there is already another volume mounted there or the app is not running as administrator.");
+                    alert.showAndWait();
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    stage.close();
+                    MainWindow.childWindowOpen = false;
                 } else {
-                    showInvalidPartitionAlert();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Success!");
+                    alert.setHeaderText("Default Volume Set");
+                    alert.setContentText("The default volume was successfully set to " + MainWindow.getEntryToSetAsDefault().getEntryName() + " (" + MainWindow.getEntryToSetAsDefault().getUuid() + ").");
+                    alert.showAndWait();
+
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    stage.close();
+                    MainWindow.childWindowOpen = false;
                 }
-            } catch (NumberFormatException e) {
+            } else {
                 showInvalidPartitionAlert();
             }
+        } catch (NumberFormatException e) {
+            showInvalidPartitionAlert();
         }
+
     }
     private static void showInvalidPartitionAlert() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -71,9 +70,7 @@ public class MountWindowsPartitionWindow implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if (SystemUtils.IS_OS_WINDOWS) {
-            outputText.setText(MountManager.listPartitionsWindows(MountWindowsDiskWindow.getDiskToMount()));
-            inputLabel.setText("Enter the number of your EFI partition: ");
-        }
+        outputText.setText(MountManager.listPartitionsWindows(MountWindowsDiskWindow.getDiskToMount()));
+        inputLabel.setText("Enter the number of your EFI partition: ");
     }
 }

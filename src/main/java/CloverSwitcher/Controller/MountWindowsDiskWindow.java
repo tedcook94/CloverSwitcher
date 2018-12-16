@@ -34,27 +34,25 @@ public class MountWindowsDiskWindow implements Initializable {
 
     @FXML
     private void openMountPartitionWindow(ActionEvent event) throws IOException {
-        if (SystemUtils.IS_OS_WINDOWS) {
-            try {
-                diskToMount = Integer.parseInt(inputField.getText().trim());
+        try {
+            diskToMount = Integer.parseInt(inputField.getText().trim());
 
-                if (diskToMount >= 0) {
-                    if (!MountManager.listPartitionsWindows(diskToMount).contains("is not valid")) {
-                        Parent mountPartitionWindow = FXMLLoader.load(getClass().getClassLoader().getResource("mountWindowsPartitionWindow.fxml"));
-                        Scene scene = new Scene(mountPartitionWindow);
-                        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                        stage.setScene(scene);
-                        stage.setOnCloseRequest(e -> MainWindow.childWindowOpen = false);
-                        stage.show();
-                    } else  {
-                        showInvalidDiskAlert();
-                    }
-                } else {
+            if (diskToMount >= 0) {
+                if (!MountManager.listPartitionsWindows(diskToMount).contains("is not valid")) {
+                    Parent mountPartitionWindow = FXMLLoader.load(getClass().getClassLoader().getResource("mountWindowsPartitionWindow.fxml"));
+                    Scene scene = new Scene(mountPartitionWindow);
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    stage.setScene(scene);
+                    stage.setOnCloseRequest(e -> MainWindow.childWindowOpen = false);
+                    stage.show();
+                } else  {
                     showInvalidDiskAlert();
                 }
-            } catch (NumberFormatException e) {
+            } else {
                 showInvalidDiskAlert();
             }
+        } catch (NumberFormatException e) {
+            showInvalidDiskAlert();
         }
     }
 
@@ -68,9 +66,7 @@ public class MountWindowsDiskWindow implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if (SystemUtils.IS_OS_WINDOWS) {
-            outputText.setText(MountManager.listDisksWindows());
-            inputLabel.setText("Enter the disk number of your Clover disk: ");
-        }
+        outputText.setText(MountManager.listDisksWindows());
+        inputLabel.setText("Enter the disk number of your Clover disk: ");
     }
 }
