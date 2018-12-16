@@ -121,11 +121,10 @@ public class MainWindow implements Initializable {
     @FXML
     private void openMountDiskWindow(ActionEvent event) throws IOException {
         BootEntry entry = entryTable.getSelectionModel().getSelectedItem();
-        if (SystemUtils.IS_OS_WINDOWS) {
-            if (!childWindowOpen) {
-                if (entry != null) {
-                    entryToSetAsDefault = entry;
-
+        if (!childWindowOpen) {
+            if (entry != null) {
+                entryToSetAsDefault = entry;
+                if (SystemUtils.IS_OS_WINDOWS) {
                     boolean isAdmin = MountManager.listDisksWindows().length() > 0;
 
                     if (isAdmin) {
@@ -143,19 +142,7 @@ public class MainWindow implements Initializable {
                         alert.setContentText("Failed to retrieve a list of system disks. Is this app running as administrator?");
                         alert.showAndWait();
                     }
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Error");
-                    alert.setHeaderText("No Entry Selected");
-                    alert.setContentText("Select an entry from the table to set it as the default boot entry.");
-                    alert.showAndWait();
-                }
-            }
-        } else if (SystemUtils.IS_OS_MAC) {
-            if (!childWindowOpen) {
-                if (entry != null) {
-                    entryToSetAsDefault = entry;
-
+                } else if (SystemUtils.IS_OS_MAC) {
                     Parent mountPartitionWindow = FXMLLoader.load(getClass().getClassLoader().getResource("mountUnixPartitionWindow.fxml"));
                     Scene scene = new Scene(mountPartitionWindow);
                     Stage stage = new Stage();
@@ -166,17 +153,17 @@ public class MainWindow implements Initializable {
                 } else {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Error");
-                    alert.setHeaderText("No Entry Selected");
-                    alert.setContentText("Select an entry from the table to set it as the default boot entry.");
+                    alert.setHeaderText("Error Setting Default Entry");
+                    alert.setContentText("This operating system is not currently supported.");
                     alert.showAndWait();
                 }
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText("No Entry Selected");
+                alert.setContentText("Select an entry from the table to set it as the default boot entry.");
+                alert.showAndWait();
             }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error");
-            alert.setHeaderText("Error Setting Default Entry");
-            alert.setContentText("This operating system is not currently supported.");
-            alert.showAndWait();
         }
     }
 
