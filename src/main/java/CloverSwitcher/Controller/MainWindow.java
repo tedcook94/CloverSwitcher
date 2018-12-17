@@ -142,7 +142,7 @@ public class MainWindow implements Initializable {
                         alert.setContentText("Failed to retrieve a list of system disks. Is this app running as administrator?");
                         alert.showAndWait();
                     }
-                } else if (SystemUtils.IS_OS_MAC) {
+                } else if (SystemUtils.IS_OS_MAC || SystemUtils.IS_OS_LINUX) {
                     Parent mountPartitionWindow = FXMLLoader.load(getClass().getClassLoader().getResource("mountUnixPartitionWindow.fxml"));
                     Scene scene = new Scene(mountPartitionWindow);
                     Stage stage = new Stage();

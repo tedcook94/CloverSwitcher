@@ -1,6 +1,7 @@
 package CloverSwitcher.Model;
 
 import CloverSwitcher.Controller.MainWindow;
+import org.apache.commons.lang3.SystemUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -81,6 +82,32 @@ public class MountManager {
             String line;
 
             ProcessBuilder builder = new ProcessBuilder("/usr/sbin/diskutil", "list");
+            Process p = builder.start();
+            p.waitFor();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+            while ((line = br.readLine()) != null) {
+                if (result == "") {
+                    result = line;
+                } else {
+                    result += "\n" + line;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public static String listPartitionsLinux() {
+        String result = "";
+
+        try {
+            String line;
+
+            ProcessBuilder builder = new ProcessBuilder("/usr/bin/gksudo", "parted -l");
             Process p = builder.start();
             p.waitFor();
 
@@ -240,6 +267,90 @@ public class MountManager {
                 }
             }
             Files.deleteIfExists(FileSystems.getDefault().getPath(elevator.getPath()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public static String mountPartitionLinux(String diskPart) {
+        String result = "";
+
+        try {
+            String line;
+
+            ProcessBuilder builder = new ProcessBuilder("/bin/mkdir", "/tmp/EFI");
+            Process p = builder.start();
+            p.waitFor();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+            while ((line = br.readLine()) != null) {
+                if (result == "") {
+                    result = line;
+                } else {
+                    result += "\n" + line;
+                }
+            }
+
+            builder = new ProcessBuilder("/usr/bin/gksudo", "mount -w " + diskPart + " /tmp/EFI");
+            p = builder.start();
+            p.waitFor();
+
+            br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+            while ((line = br.readLine()) != null) {
+                if (result == "") {
+                    result = line;
+                } else {
+                    result += "\n" + line;
+                }
+            }
+
+            File config = new File("/tmp/EFI" + File.separator + "EFI" + File.separator + "CLOVER" + File.separator + "config.plist");
+            PlistManager.setDefaultEntry(config, MainWindow.getEntryToSetAsDefault().getUuid());
+            unmountPartitionLinux();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public static String unmountPartitionLinux() {
+        String result = "";
+
+        try {
+            String line;
+
+            ProcessBuilder builder = new ProcessBuilder("/usr/bin/gksudo", "umount /tmp/EFI");
+            Process p = builder.start();
+            p.waitFor();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+            while ((line = br.readLine()) != null) {
+                if (result == "") {
+                    result = line;
+                } else {
+                    result += "\n" + line;
+                }
+            }
+
+            builder = new ProcessBuilder("/bin/rm", "-rf /tmp/EFI");
+            p = builder.start();
+            p.waitFor();
+
+            br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+            while ((line = br.readLine()) != null) {
+                if (result == "") {
+                    result = line;
+                } else {
+                    result += "\n" + line;
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

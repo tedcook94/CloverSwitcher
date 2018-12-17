@@ -15,17 +15,27 @@ public class PlistManager {
             boot.put("DefaultVolume", new NSString(uuid));
 
             System.setProperty("line.separator", "\n");
-            PrintWriter writer;
             if (SystemUtils.IS_OS_WINDOWS) {
-                writer = new PrintWriter("Z:" + File.separator + "EFI" + File.separator + "CLOVER" + File.separator + "config.plist", "UTF-8");
+                PrintWriter writer = new PrintWriter("Z:" + File.separator + "EFI" + File.separator + "CLOVER" + File.separator + "config.plist", "UTF-8");
+                writer.print(config.toXMLPropertyList());
+                writer.close();
             } else if (SystemUtils.IS_OS_MAC) {
-                writer = new PrintWriter("/Volumes/EFI" + File.separator + "EFI" + File.separator + "CLOVER" + File.separator + "config.plist", "UTF-8");
+                PrintWriter writer = new PrintWriter("/Volumes/EFI" + File.separator + "EFI" + File.separator + "CLOVER" + File.separator + "config.plist", "UTF-8");
+                writer.print(config.toXMLPropertyList());
+                writer.close();
+            } else if (SystemUtils.IS_OS_LINUX) {
+                File tempConfig = File.createTempFile("config", ".plist");
+                PrintWriter writer = new PrintWriter(tempConfig, "UTF-8");
+                writer.print(config.toXMLPropertyList());
+                writer.close();
+                ProcessBuilder builder = new ProcessBuilder("/usr/bin/gksudo", "cp -f " + tempConfig.getAbsolutePath() + " /tmp/EFI/EFI/CLOVER/config.plist");
+                Process p = builder.start();
+                p.waitFor();
             } else {
-                writer = new PrintWriter("config.plist", "UTF-8");
+                PrintWriter writer = new PrintWriter("config.plist", "UTF-8");
+                writer.print(config.toXMLPropertyList());
+                writer.close();
             }
-            writer.print(config.toXMLPropertyList());
-            writer.close();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
