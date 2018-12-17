@@ -26,4 +26,5 @@ As of now, the application is fully working if you are willing to build from sou
 # Things to note about using Clover Switcher:
  * Running on Windows requires running the application as Administrator to mount/edit Clover config
  * Using on macOS or Linux will prompt for a root password multiple times during mounting/config editing
+ * Use on Linux has a dependency on gksu, which you may need to install yourself
  * Has been tested on Windows 10, macOS Mojave and Ubuntu 16.04. If you are able to successfully use Clover Switcher on a different platform than these, let me know and I'll update the list!
