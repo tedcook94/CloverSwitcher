@@ -10,13 +10,13 @@
 <AnchorPane prefHeight="340.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CloverSwitcher.Controller.MountUnixPartitionWindow">
     <children>
         <TextArea fx:id="outputText" editable="false" layoutX="25.0" layoutY="25.0" prefHeight="250.0" prefWidth="400.0" />
-        <Label fx:id="diskLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="25.0" layoutY="290.0" prefHeight="25.0" prefWidth="150.0" text="Label" textAlignment="RIGHT">
+        <Label fx:id="diskLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="15.0" layoutY="290.0" prefHeight="25.0" prefWidth="170.0" text="Label" textAlignment="RIGHT">
             <font>
                 <Font size="14.0" />
             </font>
         </Label>
-        <TextField fx:id="diskField" layoutX="190.0" layoutY="290.0" prefHeight="25.0" prefWidth="35.0" />
-        <Label fx:id="partitionLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="235.0" layoutY="290.0" prefHeight="25.0" prefWidth="65.0" text="Label" textAlignment="RIGHT">
+        <TextField fx:id="diskField" layoutX="190.0" layoutY="290.0" prefHeight="25.0" prefWidth="45.0" />
+        <Label fx:id="partitionLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="235.0" layoutY="290.0" prefHeight="25.0" prefWidth="75.0" text="Label" textAlignment="RIGHT">
             <font>
                 <Font size="14.0" />
             </font>

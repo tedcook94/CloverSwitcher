@@ -5,3 +5,5 @@ CloverSwitcher.iml
 bootEntries.json
 diskpartScript.txt
 config.plist
+Output
+*.iss

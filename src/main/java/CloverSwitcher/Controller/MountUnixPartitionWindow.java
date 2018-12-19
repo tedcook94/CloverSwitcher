@@ -36,6 +36,8 @@ public class MountUnixPartitionWindow implements Initializable {
     static int getDiskToMount() { return diskToMount; }
     private static int partitionToMount;
     static int getPartitionToMount() { return partitionToMount; }
+    private static String diskPartToMount;
+    static String getDiskPartToMount() { return diskPartToMount; }
 
     @FXML
     private void setDefaultBootEntry(ActionEvent event) {
@@ -72,6 +74,31 @@ public class MountUnixPartitionWindow implements Initializable {
             } else {
                 showInvalidDiskAlert();
             }
+        } else if (SystemUtils.IS_OS_LINUX) {
+            String disk = diskField.getText().trim();
+            int partition;
+            try {
+                partition = Integer.parseInt(partitionField.getText().trim());
+            } catch (NumberFormatException e) {
+                showInvalidPartitionAlert();
+                return;
+            }
+
+            if (partition > 0) {
+                diskPartToMount = "/dev/" + disk + partition;
+                MountManager.mountPartitionLinux(diskPartToMount);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success!");
+                alert.setHeaderText("Default Volume Set");
+                alert.setContentText("The default volume was successfully set to " + MainWindow.getEntryToSetAsDefault().getEntryName() + " (" + MainWindow.getEntryToSetAsDefault().getUuid() + ").");
+                alert.showAndWait();
+
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.close();
+                MainWindow.childWindowOpen = false;
+            } else {
+                showInvalidPartitionAlert();
+            }
         }
     }
 
@@ -95,7 +122,11 @@ public class MountUnixPartitionWindow implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         if (SystemUtils.IS_OS_MAC) {
             outputText.setText(MountManager.listPartitionsMac());
-            diskLabel.setText("Clover disk number: ");
+            diskLabel.setText("Clover disk number:");
+            partitionLabel.setText("Partition:");
+        } else if (SystemUtils.IS_OS_LINUX) {
+            outputText.setText(MountManager.listPartitionsLinux());
+            diskLabel.setText("Clover disk string: /dev/");
             partitionLabel.setText("Partition:");
         }
     }
