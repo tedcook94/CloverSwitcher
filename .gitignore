@@ -7,3 +7,4 @@ diskpartScript.txt
 config.plist
 Output
 *.iss
+.DS_Store
